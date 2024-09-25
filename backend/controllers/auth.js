@@ -4,6 +4,7 @@ const SECRET_KEY = 'jwtsecret';
 const saltRounds = 10
 const conn = require('../Config/db')
 
+
 exports.login = async (req, res) => {
 
     const { username, password } = req.body;
@@ -39,7 +40,6 @@ exports.login = async (req, res) => {
 
         const payload = {
             user: {
-                id: user.id,
                 username: user.username,
                 role: user.role,
             },
@@ -55,4 +55,15 @@ exports.login = async (req, res) => {
         });
     });
 
+};
+
+exports.getUserinfo = (req, res) => {
+    const token = req.headers['authtoken'].split(' ')[1];
+    if (!token) return res.status(403).send('Token is required');
+  
+    jwt.verify(token, SECRET_KEY, (err, decoded) => {
+      if (err) return res.status(401).send('Invalid Token');
+      req.user = decoded.user;
+    });
+    return res.json({ user: req.user });
 };

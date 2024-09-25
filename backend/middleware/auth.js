@@ -9,7 +9,6 @@ exports.auth = async(req,res,next) => {
             return res.status(401).send('No token')
         }
 
-        
         //1.ตรวจสอบ token ด้วยฟังก์ชัน jwt.verify
 
         if(!jwt.verify(token,SECRET_KEY)){
