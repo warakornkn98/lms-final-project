@@ -1,17 +1,14 @@
 import React from 'react'
-import { AuthData } from '../Auth/AuthContext'
-import Books from './Book/Books';
-import MyNavbar from './Navbar';
-import { Outlet, Route, Routes } from 'react-router-dom';
-import BookTable from './Book/BooksTable';
+import { Outlet } from 'react-router-dom';
+
+import NavbarComponent from './Navbar';
+
 
 const User = () => {
 
-  const {user} = AuthData()
-  console.log(user);
   return (
     <>
-      <MyNavbar/>
+      <NavbarComponent/>
       <Outlet/>
     </>
   )

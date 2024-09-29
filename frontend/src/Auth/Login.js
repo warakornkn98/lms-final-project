@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { isRouteErrorResponse, useNavigate } from 'react-router-dom';
-import './Login.css'; // Import CSS ที่กำหนดเอง
-import { AuthData } from './AuthContext';
+import { useNavigate } from 'react-router-dom';
+import './Login.css'; // Import custom CSS
 import axios from 'axios';
 
 const Login = () => {
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
-    const [username,setUsername] = useState();
-    const [password,setPassword] = useState();
+    
+    // Set initial values for username and password to empty strings
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
     useEffect(() => {
         if (token) {
-          navigate('/admin');
+            navigate('/');
         }
-    }, []);
+    }, [token]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
           const response = await axios.post('http://localhost:5000/api/login', { username, password });
           localStorage.setItem('token', response.data.token);
-          navigate('/admin');
+          navigate('/');
         } catch (err) {
           setError('Invalid username or password');
         }
@@ -31,7 +32,7 @@ const Login = () => {
     return (
         <div className="login-container">
             <div className="login-box">
-                <h2 className="login-title">Welcome</h2>
+                <h2 className="login-title">เข้าสู่ระบบ</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Username</label>
@@ -53,8 +54,9 @@ const Login = () => {
                             required 
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary btn-block">Login</button>
+                    <button type="submit" className="btn btn-primary btn-block">เข้าสู่ระบบ</button>
                 </form>
+                {error && <p className="error-message">{error}</p>}
             </div>
         </div>
     );

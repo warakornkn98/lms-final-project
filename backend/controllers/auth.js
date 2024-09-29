@@ -45,7 +45,7 @@ exports.login = async (req, res) => {
             },
         };
 
-        jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' }, (err, token) => {
+        jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' }, (err, token) => {
             if (err) {
                 return res.status(500).json({
                     message: 'Error generating token'

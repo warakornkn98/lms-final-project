@@ -3,21 +3,16 @@ import React, { useEffect, useState } from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 
 function BookDetail() {
-    const { id } = useParams();
     const navigate = useNavigate();
-    const [book, setBook] = useState([]);
+    const location = useLocation();
+    const { book } = location.state || {};
 
     useEffect(() => {
-        fetchBooks();
+        console.log(book);
+        
     }, []);
 
-    const fetchBooks = async () => {
-        const response = await axios.get(`http://localhost:5000/api/bookdetail/${id}`, {
-            headers: { authtoken: `${localStorage.getItem('token')}` }
-        });
-        setBook(response.data);
-    };
-
+    
     if (!book) {
         return <div>หนังสือไม่พบ!</div>;
     }
@@ -26,24 +21,40 @@ function BookDetail() {
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-4">
-                <img
-                    src={`https://via.placeholder.com/300?text=${book.name}`} // Placeholder image or book.image if available
-                    alt={book.name}
-                    className="img-fluid rounded"
-                />
+                    <div
+                        style={{
+                            width: '350px',
+                            height: 'auto',
+                            border: '10px solid #ccc',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginBottom: '50px',
+                            backgroundColor: '#f8f9fa',
+                        }}
+                    >
+                        <img
+                            src={`data:image/jpeg;base64,${book.cover_image}`}
+                            alt={book.name}
+                            className="img-fluid rounded"
+                        />
+                    </div>
+                
                 </div>
                 <div className="col-md-8">
-                <h1 className="mb-4">{book.name}</h1>
-                <p><strong>คำอธิบาย:</strong> {book.desc}</p>
-                <p><strong>ผู้แต่ง:</strong> {book.author}</p>
-                <p><strong>สำนักพิมพ์:</strong> {book.publisher}</p>
-                <p><strong>ปีที่พิมพ์:</strong> {book.publish_year}</p>
-                <p><strong>ราคา:</strong> {book.price} บาท</p>
-                <p><strong>จำนวนที่มี:</strong> {book.available_quantity}</p>
-                <p><strong>จำนวนทั้งหมด:</strong> {book.total_quantity}</p>
-                <button className="btn btn-secondary mt-4" onClick={() => navigate(-1)}>
-                    กลับ
-                </button>
+                    <h1 className="mb-4">{book.title}</h1>
+                    <p><strong>คำอธิบาย:</strong> {book.description}</p>
+                    <p><strong>หมวดหมู่:</strong> {book.category}</p>
+                    <p><strong>ผู้แต่ง:</strong> {book.author}</p>
+                    <p><strong>สำนักพิมพ์:</strong> {book.publisher}</p>
+                    <p><strong>ISBN:</strong> {book.isbn}</p>
+                    <p><strong>ปีที่พิมพ์:</strong> {book.publication_year}</p>
+                    <p><strong>จำนวนหน้า:</strong> {book.pages}</p>
+                    <p><strong>ราคา:</strong> {book.price} บาท</p>
+                    <p><strong>จำนวนเล่ม:</strong> {book.quantity}</p>
+                    <button className="btn btn-secondary mt-4" onClick={() => navigate(-1)}>
+                        กลับ
+                    </button>
                 </div>
                 
             </div>

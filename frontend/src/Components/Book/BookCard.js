@@ -5,16 +5,17 @@ function BookCard({book}) {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/admin/books/${book.id}`, { state: { book } });
+        navigate(`/books/${book.book_id}`, { state: { book } });
     };
 
     return (
         <div>
         <div className="card mb-3" style={{ width: "18rem" }}>
         <img
-            src={`https://via.placeholder.com/150`} // ใช้ placeholder image
+            src={`data:image/jpeg;base64,${book.cover_image}`}
             className="card-img-top"
-            alt={book.name}
+            alt={book.title}
+            style={{ width: 'auto', height: 'auto' }}
         />
         <div className="card-body">
             <h5 className="card-title">{book.name}</h5>
